@@ -1,0 +1,16 @@
+<!doctype html>
+<title>JS Event Loop Examples</title>
+
+<h1>JS Event Loop Examples</h1>
+
+<main>click somewhere…</main>
+
+<script>
+  function handler() {
+    console.log('inside handler');
+  }
+
+  console.log('setting up listener');
+  document.addEventListener('click', handler);
+  console.log('listener is ready');
+</script>

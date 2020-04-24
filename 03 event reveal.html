@@ -1,0 +1,26 @@
+<!doctype html>
+<title>JS Event Loop Examples</title>
+<style>
+  p {
+    border: solid thin black;
+    border-radius: 0.5em;
+    padding: 0.5em;
+  }
+</style>
+
+<h1>JS Event Loop Examples</h1>
+
+<button>show date</button>
+
+<script>
+  const mainEl = document.querySelector('main');
+
+  function showDate() {
+    const dateEl = document.createElement('p');
+    document.body.append(dateEl);
+    dateEl.textContent = new Date();
+  }
+
+  const btnEl = document.querySelector('button');
+  btnEl.addEventListener('click', showDate);
+</script>

@@ -1,0 +1,18 @@
+<!doctype html>
+<title>JS Event Loop Examples</title>
+
+<h1>JS Event Loop Examples</h1>
+
+<main>starting...</main>
+
+<script>
+  const mainEl = document.querySelector('main');
+  let counter = 0;
+  function count() {
+    mainEl.textContent = counter;
+    counter += 1;
+    setTimeout(count, 100);
+  }
+
+  setTimeout(count, 100);
+</script>

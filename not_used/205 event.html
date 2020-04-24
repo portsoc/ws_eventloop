@@ -1,0 +1,34 @@
+<!doctype html>
+<title>JS Event Loop Examples</title>
+
+<h1>JS Event Loop Examples</h1>
+
+<main>starting...</main>
+
+<script>
+  const mainEl = document.querySelector('main');
+  let counter = 0;
+  function count() {
+    mainEl.textContent = counter;
+    counter += 1;
+    heavyTask(1000);
+  }
+
+  document.addEventListener('click', count);
+
+  let lastTime = Date.now();
+  let lastCount = 0;
+  function log() {
+    let time = Date.now();
+    console.log((counter - lastCount)/(time-lastTime)*1000);
+    lastTime = time;
+    lastCount = counter;
+  }
+
+  setInterval(log, 1000);
+
+  function heavyTask(ms) {
+    let endTime = Date.now() + ms;
+    while (Date.now() < endTime) {};
+  }
+</script>

@@ -1,0 +1,37 @@
+<!doctype html>
+<title>JS Event Loop Examples</title>
+
+<h1>JS Event Loop Examples</h1>
+
+<main>starting...</main>
+
+<script>
+  const mainEl = document.querySelector('main');
+  function startFetching() {
+    for (let i=0; i<10; i+=1) {
+      oneFetch();
+    }
+  }
+
+  async function oneFetch() {
+    const resp = await fetch('https://europe-west2-sse-2019.cloudfunctions.net/Name')
+    const text = await resp.text();
+    heavyTask(1000);
+    console.log(counter, text);
+  }
+
+  let counter = 0;
+  function count() {
+    counter += 1;
+    mainEl.textContent = counter;
+    requestAnimationFrame(count);
+  }
+
+  startFetching();
+  count();
+
+  function heavyTask(ms) {
+    let endTime = Date.now() + ms;
+    while (Date.now() < endTime) {};
+  }
+</script>
