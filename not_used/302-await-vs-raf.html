@@ -1,0 +1,83 @@
+<!doctype html>
+<title>JS Event Loop Examples</title>
+
+<h1>JS Event Loop Examples</h1>
+
+<main>starting...</main>
+
+<script>
+  const resolvedPromise = 42;
+
+  let state;
+
+  const counts = {};
+  window.counts = counts;
+
+  function updateState(newState) {
+    if (state) {
+      const transition = state + ' -> ' + newState;
+      if (!counts[transition]) counts[transition] = 0;
+      counts[transition] += 1;
+    }
+    state = newState;
+  }
+
+  let resolve;
+  function setupResolve() {
+    return new Promise((r) => {
+      resolve = r;
+    });
+  }
+
+
+  // setInterval(async () => {
+  //   for (let i=0; i<1e8; i+=1);
+  //   updateState('int');
+  //   await resolvedPromise;
+  //   updateState('int-await');
+  //   await setupResolve();
+  //   updateState('int-res');
+  // }, 1);
+  //
+  // setInterval(async () => {
+  //   for (let i=0; i<1e8; i+=1);
+  //   updateState('in2');
+  //   await resolvedPromise;
+  //   updateState('in2-await');
+  //   await setupResolve();
+  //   updateState('in2-res');
+  // }, 1);
+  //
+  document.addEventListener('mousemove', async () => {
+    for (let i=0; i<1e8; i+=1);
+    updateState('mouse');
+    await resolvedPromise;
+    updateState('mouse-await');
+  });
+
+  document.addEventListener('click', async () => {
+    for (let i=0; i<1e8; i+=1);
+    updateState('click');
+    await resolvedPromise;
+    updateState('click-await');
+  });
+
+  async function raf() {
+    requestAnimationFrame(raf);
+    updateState('raf');
+    // if (resolve) resolve();
+    await resolvedPromise;
+    updateState('raf-await');
+  }
+
+  requestAnimationFrame(raf);
+
+  // report states
+  setInterval(() => {
+    console.log('---------');
+    for (const key of Object.keys(counts).sort()) {
+      console.log(key, counts[key]);
+    }
+  }, 3000)
+
+</script>
